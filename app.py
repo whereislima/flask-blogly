@@ -52,6 +52,7 @@ def add_user():
 def show_user_detail(user_id):
 
     user = User.query.get_or_404(user_id)
+   
     return render_template("/users/detail.html", user=user)
 
 @app.route("/users/<int:user_id>/edit")
@@ -92,35 +93,14 @@ def show_post_form(user_id):
 def add_post(user_id):
 
     user = User.query.get_or_404(user_id)
-
     title = request.form["title"]
     content = request.form["content"]
 
-    post = Post(title=title, content=content, user_id=user)
+    post = Post(title=title, content=content, user=user)
     
     db.session.add(post)
     db.session.commit()
-    flash(f"Post '{post.title}' added.")
 
-    return redirect(f"/users/{user}")
+    return redirect(f"/users/{user_id}")
 
-@app.route("/posts/<int:post_id>")
-def show_post(post_id):
 
-    post = Post.query.get_or_404(post_id)
-
-# @app.route("/posts/<int:post_id>/edit")
-# def show_edit_post(post_id):
-
-#      post = Post.query.get_or_404(post_id)
-
-# @app.route("/posts/<int:post_id>/edit", methods=["POST"])
-# def edit_post(post_id):
-
-#      post = Post.query.get_or_404(post_id)
-
-# @app.route("/posts/<int:post_id>/delete", methods=["POST"])
-# def delete_post(post_id):
-
-#      post = Post.query.get_or_404(post_id)
-     

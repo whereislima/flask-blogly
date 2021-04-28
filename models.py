@@ -48,8 +48,8 @@ class Post(db.Model):
                             db.ForeignKey('users.id'),
                             nullable=False)
     user = db.relationship('User')
+   
 
-    
 
 def connect_db(app):
     """Connect to database."""
