@@ -1,8 +1,8 @@
 """Blogly application."""
 
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -16,7 +16,7 @@ debug = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all()
 
-
+# USER ROUTES
 @app.route("/")
 def redirect_users_list():
 
@@ -80,3 +80,47 @@ def delete_user(user_id):
 
     return redirect("/users")
 
+# POST ROUTES ----------------------------------------------
+
+@app.route("/users/<int:user_id>/posts/new")
+def show_post_form(user_id):
+
+    user = User.query.get_or_404(user_id)
+    return render_template("/users/posts/form.html", user=user)
+
+@app.route("/users/<int:user_id>/posts/new", methods=["POST"])
+def add_post(user_id):
+
+    user = User.query.get_or_404(user_id)
+
+    title = request.form["title"]
+    content = request.form["content"]
+
+    post = Post(title=title, content=content, user=user)
+    
+    db.session.add(post)
+    db.session.commit()
+    flash(f"Post '{post.title}' added.")
+
+    return redirect(f"/users/{user}")
+
+@app.route("/posts/<int:post_id>")
+def show_post(post_id):
+
+    post = Post.query.get_or_404(post_id)
+
+# @app.route("/posts/<int:post_id>/edit")
+# def show_edit_post(post_id):
+
+#      post = Post.query.get_or_404(post_id)
+
+# @app.route("/posts/<int:post_id>/edit", methods=["POST"])
+# def edit_post(post_id):
+
+#      post = Post.query.get_or_404(post_id)
+
+# @app.route("/posts/<int:post_id>/delete", methods=["POST"])
+# def delete_post(post_id):
+
+#      post = Post.query.get_or_404(post_id)
+     
