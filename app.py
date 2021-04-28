@@ -96,7 +96,7 @@ def add_post(user_id):
     title = request.form["title"]
     content = request.form["content"]
 
-    post = Post(title=title, content=content, user=user)
+    post = Post(title=title, content=content, user_id=user)
     
     db.session.add(post)
     db.session.commit()
