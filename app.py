@@ -103,4 +103,9 @@ def add_post(user_id):
 
     return redirect(f"/users/{user_id}")
 
+@app.route("/posts/<int:post_id>")
+def post_detail(post_id):
 
+    post = Post.query.get_or_404(post_id)
+
+    return render_template("/users/posts/detail.html", post=post)

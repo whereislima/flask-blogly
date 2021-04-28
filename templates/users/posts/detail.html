@@ -4,4 +4,28 @@
 
 {% block content %}
 
+<div>
+<p>
+{{post.title}}
+</p>
+<p>
+{{post.content}}
+</p>
+
+By {{post.user.full_name}}
+
+<form action="">
+  <button>Cancel</button>
+</form>
+
+<form action="">
+  <button>Edit</button>
+</form>
+
+<form action="">
+  <button>Delete</button>
+</form>
+</div>
+
+
 {% endblock %}
