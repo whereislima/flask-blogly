@@ -14,15 +14,15 @@
 
 By {{post.user.full_name}}
 
-<form action="">
+<form action="/users/{{post.user_id}}">
   <button>Cancel</button>
 </form>
 
-<form action="">
+<form action="/posts/{{post.id}}/edit">
   <button>Edit</button>
 </form>
 
-<form action="">
+<form action="/posts/{{post.id}}/delete" method="POST">
   <button>Delete</button>
 </form>
 </div>
