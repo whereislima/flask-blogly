@@ -18,6 +18,11 @@
     <input type="text" size="50" name="content">
   </p>
 
+  {% for tag in tags %}
+  <input type="checkbox" name="tags" value="{{tag.id}}">
+  <label for="">{{tag.name}}</label>
+  {% endfor %}
+
   <input type="submit" value="Add">
 </form>
 

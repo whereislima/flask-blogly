@@ -2,7 +2,7 @@
 
 from flask import Flask, request, redirect, render_template, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, PostTag, Tag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -139,3 +139,73 @@ def delete_post(post_id):
     db.session.commit()
 
     return redirect(f"/users/{post.user_id}")
+
+# TAG ROUTES --------------------------------------------
+
+@app.route("/tags")
+def lists_tags():
+
+    tags = Tag.query.all()
+
+    return render_template("/tags/list.html", tags=tags)
+
+@app.route("/tags/<int:tag_id>")
+def tag_detail(tag_id):
+
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('/tags/show.html', tag=tag)
+
+@app.route("/tags/new")
+def show_add_tag():
+
+    return render_template("/tags/form.html")
+
+@app.route("/tags/new", methods=["POST"])
+def add_tag():
+
+    post_ids = [int(num) for num in request.form.getlist("posts")]
+    posts = Post.query.filter(Post.id.in_(post_ids)).all()
+
+    tag = request.form["tag"]
+
+    tag = Tag(name=tag, posts=posts)
+
+    db.session.add(tag)
+    db.session.commit()
+
+    return redirect("/tags")
+
+@app.route("/tags/<int:tag_id>/edit")
+def show_edit_tag(tag_id):
+
+    tag = Tag.query.get_or_404(tag_id)
+    posts = Post.query.all()
+    return render_template("/tags/edit.html", tag=tag, posts=posts)
+
+@app.route("/tags/<int:tag_id>/edit", methods=["POST"])
+def edit_tag(tag_id):
+    
+    tag = Tag.query.get_or_404(tag_id)
+    tag.name = request.form["tag"]
+    post_ids = [int(num) for num in request.form.getlist("posts")]
+    tag.posts = Post.query.filter(Post.id.in_(post_ids)).all()
+
+    db.session.add(tag)
+    db.session.commit()
+
+    return redirect("/tags")
+
+@app.route("/tags/<int:tag_id>/delete")
+def delete_tag(tag_id):
+
+    tag = Tag.query.get_or_404(tag_id)
+
+    db.session.delete(tag)
+    db.session.commit()
+
+    return redirect("/tags")
+
+
+
+

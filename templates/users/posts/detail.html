@@ -14,6 +14,15 @@
 
 By {{post.user.full_name}}
 
+{% if post.tags %}
+<b>Tags:</b>
+{% for tag in post.tags %}
+<span>
+  <a href="/tags/{{tag.id}}">{{tag.name}}</a>
+</span>
+{% endfor %}
+{% endif %}
+
 <form action="/users/{{post.user_id}}">
   <button>Cancel</button>
 </form>

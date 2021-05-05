@@ -1,4 +1,4 @@
-from models import User, Post, db
+from models import User, Post, PostTag, Tag, db
 from app import app
 
 # Create all tables
