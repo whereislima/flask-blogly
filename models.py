@@ -51,6 +51,12 @@ class Post(db.Model):
 
     post_tag = db.relationship('PostTag')
 
+    @property
+    def friendly_date(self):
+        """Return nicely-formatted date."""
+
+        return self.created_at.strftime("%a %b %-d  %Y, %-I:%M %p")
+
     
    
 class PostTag(db.Model):

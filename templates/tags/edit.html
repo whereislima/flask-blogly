@@ -10,15 +10,6 @@
 <form action="/tags/{{ tag.id }}/edit" method="POST">
   <label for="">Name</label>
   <input type="text" name="tag" placeholder="Enter tag name" value="{{ tag.name }}">
-
-  {% for post in posts %}
-  <input type="checkbox" 
-    value="{{ post.id }}" 
-    name="posts"
-  {% if post in tag.post %}
-  checked
-  {% endif%}>
-  {% endfor %}
   <input type="submit" value="Edit">
 </form>
 

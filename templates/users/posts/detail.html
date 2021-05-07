@@ -12,8 +12,9 @@
 {{post.content}}
 </p>
 
-By {{post.user.full_name}}
+By {{post.user.full_name}} on {{ post.friendly_date }}
 
+<div>
 {% if post.tags %}
 <b>Tags:</b>
 {% for tag in post.tags %}
@@ -22,6 +23,7 @@ By {{post.user.full_name}}
 </span>
 {% endfor %}
 {% endif %}
+</div>
 
 <form action="/users/{{post.user_id}}">
   <button>Cancel</button>

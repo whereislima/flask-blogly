@@ -11,7 +11,7 @@
     <br>
     <input type="text" size="50" name="title" value="{{post.title}}">
   </p>
-  
+
   <p>
     <label for="">Content</label>
     <br>
@@ -19,13 +19,14 @@
   </p>
 
   {% for tag in tags %}
-  <input type="checkbox" value="{{tag.id}}"
-  {% if tag in post.tags %}checked{% endif %} 
-  name="tags">
-  <label for="">{{ tag.name }}</label>
+  <p>
+    <input type="checkbox" value="{{tag.id}}" {% if tag in post.tags %}checked{% endif %} name="tags">
+    <label for="">{{ tag.name }}</label>
+  </p>
   {% endfor %}
-
-  <input type="submit" value="Edit">
+  <p>
+    <input type="submit" value="Edit">
+  </p>
 </form>
 
 <form action="/users/{{post.user.id}}">
